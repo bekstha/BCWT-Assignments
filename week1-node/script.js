@@ -5,7 +5,7 @@
 const _ = require('lodash');
 
 //Exercise  1
-console.log("This is JavaScript");
+console.log("This is JavaScript!!");
 
 //Exercise 2
 let output = 'Just testing nodemon, using lodash to convert' +

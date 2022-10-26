@@ -7,6 +7,7 @@ const port = 3000;
 let requestCounter = 0;
 
 app.use(express.static('public'));
+app.set('view engine', 'pug');
 
 /*
 app.get('/', (req, res) => {
@@ -25,8 +26,19 @@ app.get('/catinfo', (req, res) => {
 
 app.get('/test', (request, response) => {
     requestCounter++;
+
+    response.render('test',{
+      title : "PUG",
+      header1 : "Pug Test",
+      header2 : "Counter",
+      someText : "Page Requested " + requestCounter + " times"
+    });
+
+    //basic html as string
+    /*
     response.send('<h1>test is not available</h1> <p>'
     + requestCounter + '<p>');
+    */
 });
 
 app.listen(port, () => {
