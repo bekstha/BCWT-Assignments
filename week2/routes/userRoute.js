@@ -1,17 +1,12 @@
 'use strict';
 // userRoute
 const express = require('express');
-const router = express.Router()
+const router = express.Router();
+const userController = require('../controllers/userController');
 
-router.get('/', (req, res) => {
-    //console.log(req)
-    res.send('From this endpoint you can get user.')
-  });
+router.get('/', userController.getUsers);
 
-  router.get('/user/:userId', (req, res) => {
-    //console.log(req.params)
-    res.send('From this endpoint you can get user with Id: ' + req.params.userId)
-  });
+router.get('/:userId', userController.getUser);
 
   router.post('/', (req, res) => {
     console.log(req);
