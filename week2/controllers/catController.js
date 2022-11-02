@@ -21,10 +21,12 @@ const getCat = (req,res) => {
     }
 };
 
-const modifyCat = (req,res) => {
+const createCat = (req,res) => {
+    console.log(req.body);
+    res.send('adding a cat');
 };
 
-const createCat = (req,res) => {
+const modifyCat = (req,res) => {
 };
 
 const deleteCat = (req,res) => {
