@@ -27,10 +27,13 @@ const getUser = (req,res) => {
     }
 };
 
-const modifyUser = (req,res) => {
+const createUser = (req,res) => {
+   //console.log(req.body);
+   const userInfo = `username : ${req.body.name}, email : ${req.body.email}`;
+   res.send('From this endpoint you can add user. ' + userInfo);
 };
 
-const createUser = (req,res) => {
+const modifyUser = (req,res) => {
 };
 
 const deleteUser = (req,res) => {
