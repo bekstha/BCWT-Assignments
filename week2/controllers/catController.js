@@ -1,5 +1,5 @@
 'use strict';
-// catController
+const {rawListeners} = require('../database/db');
 const catModel = require('../models/catModel');
 
 
@@ -28,7 +28,17 @@ const createCat = async (req,res) => {
 };
 
 
-const modifyCat = (req,res) => {
+const modifyCat = async (req, res) => {
+    const cat = req.body;
+    if (req.params.catId) {
+      cat.id = req.params.catId;
+    }
+    const result = await catModel.updateCatById(cat, res);
+    if (result.affectedRows > 0) {
+      res.json({message: 'cat modified: ' + cat.id});
+    } else {
+      res.status(404).json({message: 'nothing changed'});
+    }
 };
 
 const deleteCat = async (req,res) => {

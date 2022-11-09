@@ -14,9 +14,9 @@ router.get('/:catId', catController.getCat);
 
 router.post('/', upload.single('cat'), catController.createCat);
 
-router.put('/', (req, res) => {
-  res.send('From this endpoint you can edit cats.')
-});
+router.put('/', catController.modifyCat);
+
+router.put('/:catId',catController.modifyCat );
 
 router.delete('/:catId', catController.deleteCat);
 
