@@ -1,6 +1,8 @@
 'use strict';
 const {rawListeners} = require('../database/db');
 const catModel = require('../models/catModel');
+const{validationResult} = require('express-validator');
+
 
 
 const getCats = async (req,res) => {
@@ -20,11 +22,22 @@ const getCat = async (req,res) => {
 };
 
 const createCat = async (req,res) => {
-    console.log(req.body);
-    const cat = req.body;
-    cat.filename = req.file.filename;
-    const catId = await catModel.addCat(cat,res);
-    res.status(201).json({catId});
+
+    const errors = validationResult(req);
+
+    if(errors.isEmpty() && req.file){
+        console.log(req.body);
+        const cat = req.body;
+        cat.filename = req.file.filename;
+        const catId = await catModel.addCat(cat,res);
+        res.status(201).json({message: 'cat created',catId});
+    }else{
+        res.status(400).json({
+            message: 'cat creation failed',
+            errors: errors.array()
+          });
+    }
+    
 };
 
 

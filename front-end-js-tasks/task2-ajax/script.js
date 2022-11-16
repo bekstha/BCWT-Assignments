@@ -24,13 +24,28 @@ const renderResults = (data) => {
    results.innerHTML = '';
 
    for(let i = 0; i < data.length; i++){
+
       const h3 = document.createElement('h3');
       h3.textContent = data[i].show.name;
+
+      const h4 = document.createElement('h4');
+
       const img = document.createElement('img');
-      img.src = data[i].show.image.medium;
+
+      const genres = (data[i].show.genres != null) ? "Genre: " + data[i].show.genres.join(" | ") + "<br>" : "N/A" + "<br>" ;
+      const summary = (data[i].show.summary != null) ? data[i].show.summary + "<br>" : "N/A" + "<br>" ;
+      const url = (data[i].show.officialSite != null) ? "URL: "+ (data[i].show.officialSite) + "<br>" : "N/A" + "<br>" ;
+
+      h4.innerHTML = genres + summary + url;
+
+      if(data[i].show.image != null){
+         img.src = data[i].show.image.medium ;
+      }else{
+         img.src = "http://placekitten.com/321/241";
+      }
       results.append(h3);
       results.append(img);
-      // TODO: render more data!
+      results.append(h4);
    }
 }
 

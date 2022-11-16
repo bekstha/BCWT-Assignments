@@ -2,6 +2,7 @@
 
 const userModel = require('../models/userModel');
 //const { use } = require('../routes/catRoute');
+const{validationResult} = require('express-validator');
 
 const getUsers = async (req,res) => {
   const users = await userModel.getAllUsers(res);
@@ -22,14 +23,24 @@ const getUser = async (req,res) => {
     }
 };
 
-const createUser = async (req,res) => {
-   //console.log(req.body);
-   const newUser = req.body;
-   const result = await userModel.addUser(newUser, res);
-   res.status(201).json({user_Id : result});
-
-/*    const userInfo = `username : ${req.body.name}, email : ${req.body.email}`;
-   res.send('From this endpoint you can add user. ' + userInfo); */
+const createUser = async (req, res) => {
+  console.log('Creating a new user:', req.body);
+  const newUser = req.body;
+  if (!newUser.role) {
+    // default user role (normal user)
+    newUser.role = 1;
+  }
+  const errors = validationResult(req);
+  console.log('validation errors', errors);
+  if (errors.isEmpty()) {
+    const result = await userModel.addUser(newUser, res);
+    res.status(201).json({message: 'user created', userId: result});
+  } else {
+    res.status(400).json({
+      message: 'user creation failed',
+      errors: errors.array()
+    });
+  }
 };
 
 const modifyUser = (req,res) => {
