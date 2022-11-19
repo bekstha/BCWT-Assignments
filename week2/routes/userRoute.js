@@ -1,26 +1,25 @@
 'use strict';
-// userRoute
 const express = require('express');
-const router = express.Router();
-const{body, validationResult} = require('express-validator');
+const router = express.Router()
+const {body} = require('express-validator');
 
 const userController = require('../controllers/userController');
 
-router.get('/', userController.getUsers);
+router.get('/', userController.getUsers)
+  .get('/:userId', userController.getUser)
+  .post('/',
+    body('name').isLength({min: 3}).trim().escape(),
+    body('email').isEmail().normalizeEmail(),
+    body('passwd').isLength({min: 8}).trim(),
+    userController.createUser)
+  .put('/', (req, res) => {
+    // TODO: replace with controller & data model
+    // TODO: add validators too
+    res.send('From this endpoint you can edit users.');
+  })
+  .delete('/', (req, res) => {
+    // TODO: replace with controller & data model
+    res.send('From this endpoint you can delete users.');
+  });
 
-router.get('/:user_Id', userController.getUser);
-
-router.post('/', body('name').isLength({min:3}),
-body('email').isEmail(),
-body('passwd').isLength({min:8}),
-userController.createUser);
-
-router.put('/', (req, res) => {
-  res.send('From this endpoint you can edit user.')
-});
-
-router.delete('/', (req, res) => {
-  res.send('From this endpoint you can delete users.')
-});
-
-module.exports = router;
+module.exports = router

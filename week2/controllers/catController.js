@@ -13,7 +13,6 @@ const getCats = async (req,res) => {
 const getCat = async (req,res) => {
     //choose only one object with matching id
     const cat = await catModel.getCatById(res, req.params.catId);
-
     if(cat){
         res.json(cat);
     }else{
@@ -22,10 +21,12 @@ const getCat = async (req,res) => {
 };
 
 const createCat = async (req,res) => {
-
     const errors = validationResult(req);
-
-    if(errors.isEmpty() && req.file){
+    //file is missing or invalid
+    if(!req.file){
+        res.status(400).json({message: 'file missing or invalid'});
+    }
+    if(errors.isEmpty()){
         console.log(req.body);
         const cat = req.body;
         cat.filename = req.file.filename;
@@ -37,7 +38,7 @@ const createCat = async (req,res) => {
             errors: errors.array()
           });
     }
-    
+
 };
 
 

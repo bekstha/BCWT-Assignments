@@ -1,26 +1,20 @@
 'use strict';
-
 const userModel = require('../models/userModel');
-//const { use } = require('../routes/catRoute');
-const{validationResult} = require('express-validator');
+const {validationResult} = require('express-validator');
 
-const getUsers = async (req,res) => {
+const getUsers = async (req, res) => {
   const users = await userModel.getAllUsers(res);
-/*    users.map(user => {
-      delete user.password;
-      return user;
-   }) */
-   res.json(users);
+  res.json(users);
 };
 
-const getUser = async (req,res) => {
-    //choose only one object with matching id
-    const user = await userModel.getUserById(req.params.user_Id, res);
-    if(user){
-      res.json(user);
-    }else{
-      res.sendStatus(404);
-    }
+const getUser = async (req, res) => {
+  // choose only one object with matching id
+  const user = await userModel.getUserById(req.params.userId, res);
+  if (user) {
+    res.json(user);
+  } else {
+    res.sendStatus(404);
+  }
 };
 
 const createUser = async (req, res) => {
@@ -43,16 +37,17 @@ const createUser = async (req, res) => {
   }
 };
 
-const modifyUser = (req,res) => {
+const modifyUser = (req, res) => {
+  // TODO: add functionality & data model
 };
-
-const deleteUser = (req,res) => {
+const deleteUser = (req, res) => {
+  // TODO: add functionality & data model
 };
 
 module.exports = {
-    getUsers,
-    getUser,
-    modifyUser,
-    createUser,
-    deleteUser
+  getUser,
+  getUsers,
+  modifyUser,
+  createUser,
+  deleteUser,
 };
