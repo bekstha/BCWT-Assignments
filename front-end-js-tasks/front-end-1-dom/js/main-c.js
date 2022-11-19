@@ -6,7 +6,6 @@ const picArray = [
     'filename': 'img/pic1.jpg',
   },
   {
-
     'title': 'Title 2',
     'caption': 'Caption 2',
     'description': 'Donec dignissim tincidunt nisl, non scelerisque massa pharetra ut. Sed vel velit ante. Aenean quis viverra magna. Praesent eget cursus urna. Ut rhoncus interdum dolor non tincidunt. Sed vehicula consequat facilisis. Pellentesque pulvinar sem nisl, ac vestibulum erat rhoncus id. Vestibulum tincidunt sapien eu ipsum tincidunt pulvinar. ',
@@ -25,7 +24,6 @@ const picArray = [
     'filename': 'img/pic4.jpg',
   },
   {
-
     'title': 'Title 5',
     'caption': 'Caption 5',
     'description': 'Sed vel velit ante. Aenean quis viverra magna. Praesent eget cursus urna. Ut rhoncus interdum dolor non tincidunt. Sed vehicula consequat facilisis. Pellentesque pulvinar sem nisl, ac vestibulum erat rhoncus id. Vestibulum tincidunt sapien eu ipsum tincidunt pulvinar. Donec dignissim tincidunt nisl, non scelerisque massa pharetra ut. ',
@@ -36,7 +34,8 @@ const picArray = [
     'caption': 'Caption 6',
     'description': 'Sed vel velit ante. Aenean quis viverra magna. Praesent eget cursus urna. Ut rhoncus interdum dolor non tincidunt. Sed vehicula consequat facilisis. Pellentesque pulvinar sem nisl, ac vestibulum erat rhoncus id. Phasellus imperdiet nunc tincidunt molestie vestibulum. Donec dictum suscipit nibh.',
     'filename': 'img/pic6.jpg',
-  }, {
+  },
+  {
     'title': 'Title 7',
     'caption': 'Caption 7',
     'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sodales enim eget leo condimentum vulputate. Sed lacinia consectetur fermentum. Vestibulum lobortis purus id nisi mattis posuere. Praesent sagittis justo quis nibh ullamcorper, eget elementum lorem consectetur. Pellentesque eu consequat justo, eu sodales eros.',
@@ -57,28 +56,25 @@ const picArray = [
   },
 ];
 
-const main = document.querySelector("main");
+const main = document.querySelector('main');
 
-let toAppend  = "";
+picArray.forEach(entry => {
 
-picArray.forEach(entry =>{
-  toAppend += `
-        <article>
-            <header>
-                <h2>${entry.title}</h2>
-            </header>
-            <figure>
-                <img src="${entry.filename}" alt="${entry.title}">
-                <figcaption>${entry.caption}</figcaption>
-            </figure>
-            <p>${entry.description}</p>
-        </article>
-  `
-})
+  const article = main.appendChild(document.createElement('article'));
 
-main.innerHTML = toAppend;
+  article.appendChild(document.createElement('header'))
+  .appendChild(document.createElement('h2'))
+  .appendChild(document.createTextNode(entry.title));
 
+  const figure = article.appendChild(document.createElement('figure'));
 
+  const image = figure.appendChild(document.createElement('img'));
 
+  image.src = entry.filename;
+  image.alt = entry.title;
 
+  figure.appendChild(document.createElement('figcaption')).textContent = entry.caption;
 
+  article.appendChild(document.createElement('p')).textContent = entry.description;
+
+});

@@ -1,23 +1,33 @@
-const main = document.querySelector("main");
+'use strict'
 
-const article = document.createElement("article");
-const header = document.createElement("header");
-const h2 = document.createElement("h2");
-const figure = document.createElement("figure");
-const img = document.createElement("img");
-const figCaption = document.createElement("figCaption");
-const p = document.createElement("p");
+const main = document.querySelector('main');
 
-h2.innerHTML = "Article header";
-img.src = "http://placekitten.com/320/160";
-img.alt = "title";
-figCaption.innerHTML = "Caption";
-p.innerHTML="Here is some text. Here is some text. Here is some text. Here is some text.";
+const h2 = document.querySelector('h2').textContent;
+const src = document.querySelector('img').src;
+const alt = document.querySelector('img').alt;
+const figCaption = document.querySelector('figCaption').textContent;
+const p = document.querySelector('p').textContent;
 
-main.append(article);
-article.append(header);
-header.append(h2);
-article.append(figure);
-article.append(p);
-figure.append(img);
-figure.append(figCaption);
+main.appendChild(document.createElement('article')).setAttribute('id','newArticleId');
+
+document.getElementById('newArticleId')
+.appendChild(document.createElement('header'))
+.appendChild(document.createElement('h2'))
+.appendChild(document.createTextNode(h2));
+
+document.getElementById('newArticleId')
+.appendChild(document.createElement('figure')).setAttribute('id', 'figure');
+
+document.getElementById('figure')
+.appendChild(document.createElement('img')).setAttribute('id', 'image');
+
+document.getElementById('image').src = src;
+
+document.getElementById('image').alt = alt;
+
+document.getElementById('figure')
+.appendChild(document.createElement('figCaption'))
+.textContent = figCaption;
+
+document.getElementById('newArticleId')
+.appendChild(document.createElement('p')).textContent = p;
