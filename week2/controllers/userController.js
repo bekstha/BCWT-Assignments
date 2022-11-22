@@ -37,11 +37,27 @@ const createUser = async (req, res) => {
   }
 };
 
-const modifyUser = (req, res) => {
-  // TODO: add functionality & data model
+const modifyUser = async (req, res) => {
+  const newUser = req.body;
+  if(req.params.userId) {
+    newUser.userId = req.params.userId;
+  }
+  const result = await userModel.addUser.updateUserById(user,res);
+  if(result.affectedRows > 0) {
+    res.json({message: 'usermodified: ' + user.userId});
+  }else{
+    res.status(400).json({message: 'nothing changed'});
+  }
 };
-const deleteUser = (req, res) => {
-  // TODO: add functionality & data model
+
+const deleteUser = async(req, res) => {
+  const result = await userModel.deleteUserById(req.params.userId,res);
+  console.log('user deleted', result)
+  if( result.affectedRows > 0) {
+    res.json({message: 'user deleted'});
+  } else {
+    res.status(404).json({message: ' user was already deleted'});
+  }
 };
 
 module.exports = {
@@ -49,5 +65,5 @@ module.exports = {
   getUsers,
   modifyUser,
   createUser,
-  deleteUser,
+  deleteUser
 };

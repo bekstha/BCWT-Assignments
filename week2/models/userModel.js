@@ -35,8 +35,34 @@ const addUser = async (user, res) => {
   }
 };
 
+const updateUserById = async (id, res) => {
+  try{
+    const sql = 'UPDATE wop_user SET name = ?, email = ?, role = ? WHERE user_id = ?';
+    const values = [user.name, user.email, user.role, user.user_id];
+    const [rows] = await promisePool.query(sql,values);
+    return rows;
+  }catch (e){
+    console.error("error", e.message);
+    res.status(500).json({'error': e.message});
+  }
+};
+
+const deleteUserById = async (id, res) => {
+  try {
+    const [rows] =
+      await promisePool.query("DELETE FROM wop_user WHERE user_id =" +id);
+      return rows;
+  }catch (e){
+    console.error("error", e.message);
+    res.status(500).json({'error': e.message});
+  }
+};
+
+
 module.exports = {
   getAllUsers,
   getUserById,
-  addUser
+  addUser,
+  updateUserById,
+  deleteUserById
 };
