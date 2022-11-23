@@ -37,7 +37,7 @@ const createUser = async (req, res) => {
   }
 };
 
-const modifyUser = async (req, res) => {
+/* const modifyUser = async (req, res) => {
   const newUser = req.body;
   if(req.params.userId) {
     newUser.userId = req.params.userId;
@@ -58,12 +58,17 @@ const deleteUser = async(req, res) => {
   } else {
     res.status(404).json({message: ' user was already deleted'});
   }
+}; */
+
+const checkToken = (req, res) => {
+  res.json({user: req.user});
 };
 
 module.exports = {
   getUser,
   getUsers,
-  modifyUser,
+  //modifyUser,
   createUser,
-  deleteUser
+  //deleteUser,
+  checkToken
 };

@@ -23,6 +23,19 @@ const getUserById = async (id, res) => {
     res.status(500).send(e.message);
   }
 };
+
+const getUserLogin = async (user) => {
+  try{
+    console.log('getUserLogin()',user);
+    const [rows] = await promisePool.execute(
+      'SELECT * FROM wop_user WHERE email = ?;',
+      user);
+      return rows;
+  }catch (e){
+    console.log('error', e.message);
+  }
+};
+
 const addUser = async (user, res) => {
   try {
     const sql = 'INSERT INTO wop_user VALUES (null, ?, ?, ?, ?)';
@@ -35,7 +48,8 @@ const addUser = async (user, res) => {
   }
 };
 
-const updateUserById = async (id, res) => {
+
+/* const updateUserById = async (id, res) => {
   try{
     const sql = 'UPDATE wop_user SET name = ?, email = ?, role = ? WHERE user_id = ?';
     const values = [user.name, user.email, user.role, user.user_id];
@@ -57,12 +71,11 @@ const deleteUserById = async (id, res) => {
     res.status(500).json({'error': e.message});
   }
 };
-
+ */
 
 module.exports = {
   getAllUsers,
   getUserById,
   addUser,
-  updateUserById,
-  deleteUserById
+  getUserLogin
 };
