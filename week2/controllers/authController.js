@@ -1,12 +1,12 @@
 'use strict';
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
+const bcrypt = require('bcryptjs');
 const {validationResult} = require('express-validator');
 const {addUser} = require('../models/userModel');
 require('dotenv').config();
 
 const login = (req, res) => {
-  // TODO: add passport authenticate
   passport.authenticate('local', {session: false}, (err, user, info) => {
     if (err || !user) {
       return res.status(400).json({
@@ -19,6 +19,7 @@ const login = (req, res) => {
         res.send(err);
       }
       // generate a signed json web token with the contents of user object and return it in the response
+      delete user.password;
       const token = jwt.sign(user, process.env.JWT_SECRET);
       return res.json({user, token});
     });
@@ -35,6 +36,9 @@ const register = async (req, res) => {
   const errors = validationResult(req);
   console.log('validation errors', errors);
   if (errors.isEmpty()) {
+    const salt = await bcrypt.genSalt();
+    const passwordHash = await bcrypt.hash(newUser.passwd, salt);
+    newUser.passwd = passwordHash;
     const result = await addUser(newUser, res);
     res.status(201).json({ message: 'user created', userId: result });
   } else {
