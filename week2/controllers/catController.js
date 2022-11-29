@@ -5,8 +5,13 @@ const{validationResult} = require('express-validator');
 
 
 
-const getCats = async (req,res) => {
+const getCats = async (req, res) => {
     const cats = await catModel.getAllCats(res);
+    cats.map(cat => {
+      // convert birthdate date object to 'YYYY-MM-DD' string format
+      cat.birthdate = cat.birthdate.toISOString().split('T')[0];
+      return cat;
+    });
     res.json(cats);
 };
 
@@ -14,6 +19,8 @@ const getCat = async (req,res) => {
     //choose only one object with matching id
     const cat = await catModel.getCatById(res, req.params.catId);
     if(cat){
+        // convert date object to 'YYYY-MM-DD' format
+        cat.birthdate = cat.birthdate.toISOString().split('T')[0];
         res.json(cat);
     }else{
         res.sendStatus(404);

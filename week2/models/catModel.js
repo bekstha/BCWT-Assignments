@@ -50,14 +50,26 @@ const deleteCatById = async (catId, owner,  res) => {
   }
 };
 
-const updateCatById = async (cat, res) => {
-  try{
-    console.log('Modify cat:', cat);
-    const sql = 'Update wop_cat Set name = ? , weight = ?, owner = ?, birthdate = ? WHERE cat_id = ?';
-    const values = [cat.name, cat.weight, cat.owner, cat.birthdate, cat.id];
-    const [rows] = await promisePool.query(sql,values);
+const updateCatById = async (cat, user, res) => {
+  try {
+    console.log(user, 'is modifying cat:', cat);
+    let sql, values;
+    // if admin user
+    if (user.role == 0) {
+      sql =
+        'UPDATE wop_cat SET name = ?, weight = ?, birthdate = ?, owner = ? ' +
+        'WHERE cat_id = ?';
+      values = [cat.name, cat.weight, cat.birthdate, cat.owner, cat.id];
+    } else {
+      sql =
+        'UPDATE wop_cat SET name = ?, weight = ?, birthdate = ? ' +
+        'WHERE cat_id = ? AND owner = ?';
+      values = [cat.name, cat.weight, cat.birthdate, cat.id, user.user_id];
+    }
+    const [rows] =
+      await promisePool.query(sql, values);
     return rows;
-  }catch (e){
+  } catch (e) {
     console.error("error", e.message);
     res.status(500).json({'error': e.message});
   }
